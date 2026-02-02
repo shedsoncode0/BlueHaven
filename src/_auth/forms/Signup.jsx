@@ -1,6 +1,7 @@
 import React from 'react'
 import PrimaryInput from '../../components/input/PrimaryInput'
 import PrimaryButton from '../../components/button/PrimaryButton'
+import { Link } from 'react-router'
 
 const Signup = () => {
   return (
@@ -10,9 +11,9 @@ const Signup = () => {
         <h1 className="block text-2xl font-bold text-gray-800">Sign up</h1>
         <p className="mt-2 text-sm text-gray-600">
           Already have an account?
-          <a className="text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:underline font-medium" href="../examples/html/signin.html">
+          <Link to={"/sign-in"} className="text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:underline font-medium" href="../examples/html/signin.html">
             Sign in here
-          </a>
+          </Link>
         </p>
       </div>
   
