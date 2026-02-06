@@ -29,7 +29,7 @@ function App() {
       {/* Private */}
       <Route element={<RootLayout />}>
         <Route path='/referral' element={<Referral />} />
-        <Route path='/level' element={<Level />} />
+        <Route path='/stage' element={<Level />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/settings' element={<Settings />} />
       </Route>
