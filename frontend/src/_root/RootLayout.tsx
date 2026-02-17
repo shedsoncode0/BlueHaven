@@ -25,7 +25,7 @@ const user = {
 const navigation = [
   { name: "Dashboard", href: "/dashboard", current: true },
   { name: "Stage", href: "/stage", current: false },
-  { name: "Level", href: "/level", current: false },
+  { name: "Level", href: "/referral", current: false },
 ];
 
 function classNames(...classes) {

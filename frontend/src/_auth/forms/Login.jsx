@@ -1,24 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import PrimaryInput from "../../components/input/PrimaryInput";
 import PrimaryButton from "../../components/button/PrimaryButton";
 import { useAuthStore } from "../../store/useAuthStore";
 import { Link } from "react-router";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const login = useAuthStore((state) => state.login);
 
   const handleLogin = async () => {
     // Example API response
-    const response = {
-      user: {
-        id: "1",
-        name: "Shedrack",
-        email: "shedrack@gmail.com",
-      },
-      token: "jwt_token_here",
-    };
 
-    login(response.user, response.token);
+    setIsLoading(true);
+
+    setTimeout(() => {
+      const response = {
+        user: {
+          id: "1",
+          name: "Shedrack",
+          email: "shedrack@gmail.com",
+        },
+        token: "jwt_token_here",
+      };
+      setIsLoading(false);
+      toast.success("Login successful");
+      login(response.user, response.token);
+    }, 3000);
   };
 
   return (
@@ -109,6 +117,7 @@ const Login = () => {
               {/* End Checkbox */}
 
               <PrimaryButton
+                isLoading={isLoading}
                 onClick={handleLogin}
                 text="Sign in"
                 type="button"

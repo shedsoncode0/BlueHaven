@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemone server.js"
+    "dev": "nodemon server.js"
   },
   "author": "shedsonc0de",
   "license": "MIT",
@@ -24,6 +24,7 @@
     "moment": "^2.29.4",
     "mongoose": "^6.8.0",
     "morgan": "^1.10.0",
+    "nodemon": "^3.1.11",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
     "socket.io": "^4.7.1"

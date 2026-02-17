@@ -2,10 +2,9 @@
 
 const express = require("express");
 const cors = require("cors");
-const color = require("colors");
+const colors = require("colors");
 const morgan = require("morgan");
 const http = require("http");
-
 require("dotenv").config();
 
 const connectDB = require("./server/database/connection");
@@ -17,9 +16,13 @@ const PORT = process.env.PORT || 8000;
 // Connect to Database
 connectDB();
 
-// The main Server
+// Create Express App
 const app = express();
 
+// ✅ Create HTTP server from express app
+const server = http.createServer(app);
+
+// ✅ Initialize socket.io properly
 const io = require("socket.io")(server, {
   cors: {
     origin: "*",
@@ -32,6 +35,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(morgan("dev"));
 
+// Test Route
 app.get("/", verifyAccessToken, async (req, res) => {
   res.status(200).json({
     id: req.user.id,
@@ -40,14 +44,7 @@ app.get("/", verifyAccessToken, async (req, res) => {
   });
 });
 
-// Route Middlewares
-app.use("/api/v1/auth", require("./server/routes/authRoute"));
-app.use("/api/v1/user", require("./server/routes/userRoute"));
-app.use("/api/v1/post", require("./server/routes/post_route"));
-app.use("/api/v1/conversation", require("./server/routes/conversation_route"));
-app.use("/api/v1/messages", require("./server/routes/messages_route"));
-
-// Start the server
-app.listen(PORT, () => {
-  console.log("Server is up an Running on POST " + PORT.rainbow.underline);
+// Start the server (IMPORTANT: use server.listen, not app.listen)
+server.listen(PORT, () => {
+  console.log(`Server is up and running on PORT ${PORT}`);
 });

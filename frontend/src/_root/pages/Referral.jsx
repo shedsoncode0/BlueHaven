@@ -5,24 +5,24 @@ import { toast } from "react-toastify";
 const treeData = {
   id: 1,
   name: "You",
-  avatar: "/avatar1.jpg",
+  avatar: "https://t3.ftcdn.net/jpg/02/99/04/20/360_F_299042079_vGBD7wIlSeNl7vOevWHiL93G4koMM967.jpg",
   children: [
     {
       id: 2,
       name: "User A",
-      avatar: "/avatar2.jpg",
+      avatar: "https://t3.ftcdn.net/jpg/02/99/04/20/360_F_299042079_vGBD7wIlSeNl7vOevWHiL93G4koMM967.jpg",
       children: [
-        { id: 4, name: "User C", avatar: "/avatar3.jpg" },
-        { id: 5, name: "User D", avatar: "/avatar4.jpg" },
+        { id: 4, name: "User C", avatar: "https://www.shutterstock.com/image-photo/handsome-happy-african-american-bearded-600nw-2460702995.jpg" },
+        { id: 5, name: "User D", avatar: "https://www.shutterstock.com/image-photo/handsome-happy-african-american-bearded-600nw-2460702995.jpg" },
       ],
     },
     {
       id: 3,
       name: "User B",
-      avatar: "/avatar2.jpg",
+      avatar: "https://t3.ftcdn.net/jpg/02/99/04/20/360_F_299042079_vGBD7wIlSeNl7vOevWHiL93G4koMM967.jpg",
       children: [
-        { id: 6, name: "Empty" },
-        { id: 7, name: "Empty" },
+        { id: 6, name: "Empty", avatar: "https://caricom.org/wp-content/uploads/Floyd-Morris-Remake-1024x879-1.jpg" },
+        { id: 7, name: "Empty", avatar: "https://caricom.org/wp-content/uploads/Floyd-Morris-Remake-1024x879-1.jpg" },
       ],
     },
   ],
