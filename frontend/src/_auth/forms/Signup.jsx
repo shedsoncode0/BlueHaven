@@ -3,29 +3,33 @@ import PrimaryInput from "../../components/input/PrimaryInput";
 import PrimaryButton from "../../components/button/PrimaryButton";
 import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import { useAuthStore } from "../../store/useAuthStore";
+import { useAuth } from "../../hooks/useAuth";
 
 const Signup = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { register } = useAuth();
+  const navigate = useNavigate();
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const login = useAuthStore((state) => state.login);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
-  const handleLogin = async () => {
-    setIsLoading(true);
-    // Example API response
+    try {
+      await register(fullName, email, password);
+      navigate("/dashboard");
+      console.log("User registered successfully");
+      toast.success("User registered successfully");
+    } catch (err) {
+      toast.error(err.message);
+      setError(err.message);
+    }
 
-    setTimeout(() => {
-        const response = {
-          user: {
-            id: "1",
-            name: "Shedrack",
-            email: "shedrack@gmail.com",
-          },
-          token: "jwt_token_here",
-        };
-        toast.success("Sign up successful");
-        login(response.user, response.token);
-    }, 3000);
+    setLoading(false);
   };
 
   return (
@@ -89,18 +93,21 @@ const Signup = () => {
                 type="text"
                 placeholder="Joun doe"
                 label="Fullname"
+                onChange={(e) => setFullName(e.target.value)}
               />
               <PrimaryInput
                 name="email"
                 type="text"
                 placeholder="email"
                 label="Email address"
+                onChange={(e) => setEmail(e.target.value)}
               />
               <PrimaryInput
                 name="password"
                 type="text"
                 placeholder="password"
                 label="Password"
+                onChange={(e) => setPassword(e.target.value)}
               />
 
               {/* Checkbox */}
@@ -128,8 +135,8 @@ const Signup = () => {
               {/* End Checkbox */}
 
               <PrimaryButton
-                isLoading={isLoading}
-                onClick={handleLogin}
+                isLoading={loading}
+                onClick={handleSubmit}
                 text="Sign up"
                 type="button"
               />

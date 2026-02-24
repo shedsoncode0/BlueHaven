@@ -1,6 +1,8 @@
 import React from "react";
+import { useAuth } from "../../hooks/useAuth";
 
 const Dashboard = () => {
+  const { user } = useAuth();
   return (
     <section>
       {/* Warning */}
@@ -10,6 +12,7 @@ const Dashboard = () => {
         tabindex="-1"
         aria-labelledby="hs-with-description-label"
       >
+       
         <div className="flex">
           <div className="shrink-0">
             <svg
@@ -20,7 +23,8 @@ const Dashboard = () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-w idth="2"
+              stroke-w
+              idth="2"
               stroke-linecap="round"
               stroke-linejoin="round"
             >
@@ -43,7 +47,12 @@ const Dashboard = () => {
         </div>
       </div>
       {/*  */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="py-3">
+         <h1 className="font-semibold text-xl">Hello, {user?.fullName}👋</h1>
+      </div>
+      {/*  */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+       
         {/* <!-- Card --> */}
         <div className="flex flex-col bg-white border border-gray-200 shadow-2xs rounded-xl ">
           <div className="p-4 md:p-5">
@@ -53,7 +62,7 @@ const Dashboard = () => {
 
             <div className="mt-1 flex items-center gap-x-2">
               <h3 className="text-xl sm:text-2xl font-medium text-gray-800 ">
-                12,540
+                {user?.referrals.length}
               </h3>
             </div>
           </div>
@@ -69,7 +78,7 @@ const Dashboard = () => {
 
             <div className="mt-1 flex items-center gap-x-2">
               <h3 className="text-xl sm:text-2xl font-medium text-gray-800 ">
-                29.4%
+                0%
               </h3>
             </div>
           </div>
@@ -87,7 +96,7 @@ const Dashboard = () => {
 
             <div className="mt-1 flex items-center gap-x-2">
               <h3 className="text-xl sm:text-2xl font-medium text-gray-800 ">
-                56.8%
+                0.5%
               </h3>
               <span className="flex items-center gap-x-1 text-red-600">
                 <svg
@@ -107,22 +116,6 @@ const Dashboard = () => {
                 </svg>
                 <span className="inline-block text-sm">1.7%</span>
               </span>
-            </div>
-          </div>
-        </div>
-        {/* <!-- End Card --> */}
-
-        {/* <!-- Card --> */}
-        <div className="flex flex-col bg-white border border-gray-200 shadow-2xs rounded-xl ">
-          <div className="p-4 md:p-5">
-            <div className="flex items-center gap-x-2">
-              <p className="text-xs uppercase text-gray-500 ">Pageviews</p>
-            </div>
-
-            <div className="mt-1 flex items-center gap-x-2">
-              <h3 className="text-xl sm:text-2xl font-medium text-gray-800 ">
-                92,913
-              </h3>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router";
 import MainHeader from "../components/ui/Header/MainHeader";
 import MainFooter from "../components/ui/footer/MainFooter";
@@ -15,13 +15,14 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useAuthStore } from "../store/useAuthStore";
+import { useAuth } from "../hooks/useAuth";
 
-const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
+// const user = {
+//   name: "Tom Cook",
+//   email: "tom@example.com",
+//   imageUrl:
+//     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+// };
 const navigation = [
   { name: "Dashboard", href: "/dashboard", current: true },
   { name: "Stage", href: "/stage", current: false },
@@ -33,7 +34,8 @@ function classNames(...classes) {
 }
 
 const RootLayout = () => {
-  const { user, logout, isAuthenticated } = useAuthStore();
+  const { user, logout } = useAuth();
+  // const { logout, isAuthenticated } = useAuthStore();
   const [activeTab, setActiveTab] = useState("Dashboard");
 
   const userNavigation = [
@@ -41,6 +43,11 @@ const RootLayout = () => {
     { name: "Settings", href: "/settings", onClick: null },
     { name: "Sign out", href: "/", onClick: logout },
   ];
+
+  useEffect(() => {
+    console.log(user);
+  }, []);
+
   return (
     <section>
       <div className="min-h-full">
@@ -90,7 +97,7 @@ const RootLayout = () => {
                       <span className="sr-only">Open user menu</span>
                       <img
                         alt=""
-                        src={user.imageUrl}
+                        src={""}
                         className="size-8 rounded-full outline -outline-offset-1 outline-white/10"
                       />
                     </MenuButton>
@@ -156,16 +163,16 @@ const RootLayout = () => {
                 <div className="shrink-0">
                   <img
                     alt=""
-                    src={user.imageUrl}
+                    src={""}
                     className="size-10 rounded-full outline -outline-offset-1 outline-white/10"
                   />
                 </div>
                 <div className="ml-3">
                   <div className="text-base/5 font-medium text-white">
-                    {user.name}
+                    {user?.fullName}
                   </div>
                   <div className="text-sm font-medium text-gray-400">
-                    {user.email}
+                    {user?.email}
                   </div>
                 </div>
                 <button
