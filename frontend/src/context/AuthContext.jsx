@@ -7,7 +7,18 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  serverTimestamp,
+  getDoc,
+  getDocs,
+  query,
+  collection,
+  updateDoc,
+  arrayUnion,
+  where,
+} from "firebase/firestore";
 
 export const AuthContext = createContext();
 
@@ -16,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); // Firestore profile
   const [loading, setLoading] = useState(true);
 
-  const register = async (fullName, email, password) => {
+  const register = async (fullName, email, password, referralCodeInput) => {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -36,8 +47,7 @@ export const AuthProvider = ({ children }) => {
       uid: newUser.uid,
       fullName,
       email,
-      stage: { name: "Standard", type: "Beginner" },
-      level: 1,
+      stage: { name: "Standard", level: 1 },
       referralCode,
       referrals: [],
       verified: false,
@@ -45,6 +55,31 @@ export const AuthProvider = ({ children }) => {
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
+
+    // 4️⃣ If referral code was provided → check it
+    if (referralCodeInput) {
+      const q = query(
+        collection(db, "users"),
+        where("referralCode", "==", referralCodeInput.toUpperCase()),
+      );
+
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        const referrerDoc = querySnapshot.docs[0];
+        const referrerUid = referrerDoc.id;
+        console.log(referrerDoc);
+
+        await setDoc(doc(db, "users", referrerUid, "referrals", newUser.uid), {
+          uid: newUser.uid,
+          fullName,
+          email,
+          createdAt: serverTimestamp(),
+        });
+        console.log("Referral applied successfully");
+      } else {
+        console.log("Invalid referral code");
+      }
+    }
 
     return newUser;
   };

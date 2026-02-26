@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PrimaryInput from "../../components/input/PrimaryInput";
 import PrimaryButton from "../../components/button/PrimaryButton";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import { toast } from "react-toastify";
 import { useAuth } from "../../hooks/useAuth";
 
@@ -13,6 +13,10 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+
+  // const referralCode = params.get("ref");
+  const referralCode = searchParams.get("ref");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,8 +24,9 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      await register(fullName, email, password);
-      navigate("/dashboard");
+      console.log(referralCode);
+      await register(fullName, email, password, referralCode);
+      // navigate("/dashboard");
       console.log("User registered successfully");
       toast.success("User registered successfully");
     } catch (err) {

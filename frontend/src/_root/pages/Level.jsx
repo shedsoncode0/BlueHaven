@@ -118,12 +118,14 @@ const stages = [
 ];
 
 const Level = () => {
+  const refBaseLink =
+    import.meta.env.REF_BASE_LINK || "https://blue-haven-gamma.vercel.app";
+
   const [currentLevel, setCurrentLevel] = useState({
     type: "Gold",
     level: 1,
   });
 
-  
   return (
     <section>
       <h1 className="text-2xl font-bold">Stage</h1>
