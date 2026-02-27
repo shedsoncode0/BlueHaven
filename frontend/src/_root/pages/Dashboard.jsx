@@ -246,7 +246,9 @@ const Dashboard = () => {
               <div className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 ">
                 <div>
                   <p className="text-sm text-gray-600 ">
-                    <span className="font-semibold text-gray-800 ">12</span>{" "}
+                    <span className="font-semibold text-gray-800 ">
+                      {user.referrals.length}
+                    </span>{" "}
                     results
                   </p>
                 </div>
@@ -329,17 +331,16 @@ const UserCard = ({ user }) => {
         <td className="size-px whitespace-nowrap">
           <div className="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
             <div className="flex items-center gap-x-3">
-              <img
-                className="inline-block size-9.5 rounded-full"
-                src="https://images.unsplash.com/photo-1531927557220-a9e23c1e4794?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=htmlFormat&fit=facearea&facepad=2&w=320&h=320&q=80"
-                alt="Avatar"
-              />
+              <div className=" size-9.5 rounded-full bg-gray-100 flex ">
+                <h1 className="m-auto font-bold text-gray-500">{user.fullName[0]}</h1>
+              </div>
+
               <div className="grow">
                 <span className="block text-sm font-semibold text-gray-800 ">
                   {user.fullName}
                 </span>
                 <span className="block text-sm text-gray-500 dark:text-neutral-500">
-                 {user.email}
+                  {user.email}
                 </span>
               </div>
             </div>
@@ -348,10 +349,10 @@ const UserCard = ({ user }) => {
         <td className="h-px w-72 whitespace-nowrap">
           <div className="px-6 py-3">
             <span className="block text-sm font-semibold text-gray-800 ">
-              Director
+              User
             </span>
             <span className="block text-sm text-gray-500 dark:text-neutral-500">
-              Human resources
+              Blue Haven
             </span>
           </div>
         </td>
