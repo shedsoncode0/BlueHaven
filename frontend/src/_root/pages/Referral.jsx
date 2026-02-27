@@ -71,7 +71,7 @@ const copytext = (text) => {
 const Referral = () => {
   const { user } = useAuth();
   const refBaseLink =
-    import.meta.env.REF_BASE_LINK || "https://blue-haven-gamma.vercel.app";
+    import.meta.env.REF_BASE_LINK || "https://blue-haven-gamma.vercel.app/sign-up";
 
   return (
     <section>
