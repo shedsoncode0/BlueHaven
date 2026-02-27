@@ -84,7 +84,7 @@ const Dashboard = () => {
 
             <div className="mt-1 flex items-center gap-x-2">
               <h3 className="text-xl sm:text-2xl font-medium text-gray-800 ">
-                {user?.referrals.length}
+                {user?.referrals?.length}
               </h3>
             </div>
           </div>
@@ -236,7 +236,7 @@ const Dashboard = () => {
                     <th scope="col" className="px-6 py-3 text-end"></th>
                   </tr>
                 </thead>
-                {referrals.map((user, index) => (
+                {referrals?.map((user, index) => (
                   <UserCard user={user} key={index} />
                 ))}
               </table>
@@ -247,7 +247,7 @@ const Dashboard = () => {
                 <div>
                   <p className="text-sm text-gray-600 ">
                     <span className="font-semibold text-gray-800 ">
-                      {user.referrals.length}
+                      {user?.referrals.length}
                     </span>{" "}
                     results
                   </p>
