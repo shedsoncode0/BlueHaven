@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const { user } = useAuth();
-  const userId = user.uid;
+  // const userId = user?.uid;
   const [referrals, setReferrals] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,7 +15,7 @@ const Dashboard = () => {
     async function fetchReferrals() {
       try {
         setLoading(true);
-        const users = await getReferralUsers(userId); // call your function
+        const users = await getReferralUsers(user.uid); // call your function
         setReferrals(users); // store result in state
       } catch (error) {
         toast.error("Error fetching referrals:", error);
@@ -24,8 +24,8 @@ const Dashboard = () => {
       }
     }
 
-    if (userId) fetchReferrals(); // only call if userId exists
-  }, [userId]); // runs when userId changes
+    if (user.uid) fetchReferrals(); // only call if userId exists
+  }, [user]); // runs when userId changes
 
   return (
     <section>
