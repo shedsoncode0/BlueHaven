@@ -26,7 +26,7 @@ const Signup = () => {
     try {
       console.log(referralCode);
       await register(fullName, email, password, referralCode);
-      // navigate("/dashboard");
+      navigate("/dashboard");
       console.log("User registered successfully");
       toast.success("User registered successfully");
     } catch (err) {

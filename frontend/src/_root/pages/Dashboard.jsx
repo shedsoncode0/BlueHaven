@@ -1,8 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
+import { getReferralUsers } from "../../firebase/user";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const userId = user.uid;
+  const [referrals, setReferrals] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Get all referral users
+  useEffect(() => {
+    // ✅ define async function inside useEffect
+    async function fetchReferrals() {
+      try {
+        setLoading(true);
+        const users = await getReferralUsers(userId); // call your function
+        setReferrals(users); // store result in state
+      } catch (error) {
+        toast.error("Error fetching referrals:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (userId) fetchReferrals(); // only call if userId exists
+  }, [userId]); // runs when userId changes
+
   return (
     <section>
       {/* Warning */}
@@ -12,7 +36,6 @@ const Dashboard = () => {
         tabindex="-1"
         aria-labelledby="hs-with-description-label"
       >
-       
         <div className="flex">
           <div className="shrink-0">
             <svg
@@ -48,11 +71,10 @@ const Dashboard = () => {
       </div>
       {/*  */}
       <div className="py-3">
-         <h1 className="font-semibold text-xl">Hello, {user?.fullName}👋</h1>
+        <h1 className="font-semibold text-xl">Hello, {user?.fullName}👋</h1>
       </div>
       {/*  */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-       
         {/* <!-- Card --> */}
         <div className="flex flex-col bg-white border border-gray-200 shadow-2xs rounded-xl ">
           <div className="p-4 md:p-5">
@@ -134,9 +156,7 @@ const Dashboard = () => {
                   <h2 className="text-xl font-semibold text-gray-800 ">
                     Users
                   </h2>
-                  <p className="text-sm text-gray-600 ">
-                    Add users, edit and more.
-                  </p>
+                  <p className="text-sm text-gray-600 ">View, edit and more.</p>
                 </div>
 
                 <div>
@@ -146,28 +166,6 @@ const Dashboard = () => {
                       href="#"
                     >
                       View all
-                    </a>
-
-                    <a
-                      className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                      href="#"
-                    >
-                      <svg
-                        className="shrink-0 size-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M5 12h14" />
-                        <path d="M12 5v14" />
-                      </svg>
-                      Add user
                     </a>
                   </div>
                 </div>
@@ -230,7 +228,7 @@ const Dashboard = () => {
                     <th scope="col" className="px-6 py-3 text-start">
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase text-gray-800 ">
-                          Created
+                          Joined
                         </span>
                       </div>
                     </th>
@@ -238,107 +236,9 @@ const Dashboard = () => {
                     <th scope="col" className="px-6 py-3 text-end"></th>
                   </tr>
                 </thead>
-
-                <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
-                  <tr>
-                    <td className="size-px whitespace-nowrap">
-                      <div className="ps-6 py-3">
-                        <label
-                          htmlFor="hs-at-with-checkboxes-1"
-                          className="flex"
-                        >
-                          <input
-                            type="checkbox"
-                            className="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 "
-                            id="hs-at-with-checkboxes-1"
-                          />
-                          <span className="sr-only">Checkbox</span>
-                        </label>
-                      </div>
-                    </td>
-                    <td className="size-px whitespace-nowrap">
-                      <div className="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
-                        <div className="flex items-center gap-x-3">
-                          <img
-                            className="inline-block size-9.5 rounded-full"
-                            src="https://images.unsplash.com/photo-1531927557220-a9e23c1e4794?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=htmlFormat&fit=facearea&facepad=2&w=320&h=320&q=80"
-                            alt="Avatar"
-                          />
-                          <div className="grow">
-                            <span className="block text-sm font-semibold text-gray-800 ">
-                              Christina Bersh
-                            </span>
-                            <span className="block text-sm text-gray-500 dark:text-neutral-500">
-                              christina@site.com
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="h-px w-72 whitespace-nowrap">
-                      <div className="px-6 py-3">
-                        <span className="block text-sm font-semibold text-gray-800 ">
-                          Director
-                        </span>
-                        <span className="block text-sm text-gray-500 dark:text-neutral-500">
-                          Human resources
-                        </span>
-                      </div>
-                    </td>
-                    <td className="size-px whitespace-nowrap">
-                      <div className="px-6 py-3">
-                        <span className="py-1 px-1.5 inline-flex items-center gap-x-1 text-xs font-medium bg-teal-100 text-teal-800 rounded-full dark:bg-teal-500/10 dark:text-teal-500">
-                          <svg
-                            className="size-2.5"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="currentColor"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                          </svg>
-                          Active
-                        </span>
-                      </div>
-                    </td>
-                    <td className="size-px whitespace-nowrap">
-                      <div className="px-6 py-3">
-                        <div className="flex items-center gap-x-3">
-                          <span className="text-xs text-gray-500 dark:text-neutral-500">
-                            1/5
-                          </span>
-                          <div className="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700">
-                            <div
-                              className="flex flex-col justify-center overflow-hidden bg-gray-800 dark:bg-neutral-200"
-                              role="progressbar"
-                              aria-valuenow="25"
-                              aria-valuemin="0"
-                              aria-valuemax="100"
-                            ></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="size-px whitespace-nowrap">
-                      <div className="px-6 py-3">
-                        <span className="text-sm text-gray-500 dark:text-neutral-500">
-                          28 Dec, 12:12
-                        </span>
-                      </div>
-                    </td>
-                    <td className="size-px whitespace-nowrap">
-                      <div className="px-6 py-1.5">
-                        <a
-                          className="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:underline font-medium dark:text-blue-500"
-                          href="#"
-                        >
-                          Edit
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
+                {referrals.map((user, index) => (
+                  <UserCard user={user} key={index} />
+                ))}
               </table>
               {/* <!-- End Table --> */}
 
@@ -408,3 +308,106 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+const UserCard = ({ user }) => {
+  console.log(user);
+  return (
+    <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
+      <tr>
+        <td className="size-px whitespace-nowrap">
+          <div className="ps-6 py-3">
+            <label htmlFor="hs-at-with-checkboxes-1" className="flex">
+              <input
+                type="checkbox"
+                className="shrink-0 border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 "
+                id="hs-at-with-checkboxes-1"
+              />
+              <span className="sr-only">Checkbox</span>
+            </label>
+          </div>
+        </td>
+        <td className="size-px whitespace-nowrap">
+          <div className="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
+            <div className="flex items-center gap-x-3">
+              <img
+                className="inline-block size-9.5 rounded-full"
+                src="https://images.unsplash.com/photo-1531927557220-a9e23c1e4794?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=htmlFormat&fit=facearea&facepad=2&w=320&h=320&q=80"
+                alt="Avatar"
+              />
+              <div className="grow">
+                <span className="block text-sm font-semibold text-gray-800 ">
+                  {user.fullName}
+                </span>
+                <span className="block text-sm text-gray-500 dark:text-neutral-500">
+                 {user.email}
+                </span>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td className="h-px w-72 whitespace-nowrap">
+          <div className="px-6 py-3">
+            <span className="block text-sm font-semibold text-gray-800 ">
+              Director
+            </span>
+            <span className="block text-sm text-gray-500 dark:text-neutral-500">
+              Human resources
+            </span>
+          </div>
+        </td>
+        <td className="size-px whitespace-nowrap">
+          <div className="px-6 py-3">
+            <span className="py-1 px-1.5 inline-flex items-center gap-x-1 text-xs font-medium bg-teal-100 text-teal-800 rounded-full dark:bg-teal-500/10 dark:text-teal-500">
+              <svg
+                className="size-2.5"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+              >
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+              </svg>
+              Active
+            </span>
+          </div>
+        </td>
+        <td className="size-px whitespace-nowrap">
+          <div className="px-6 py-3">
+            <div className="flex items-center gap-x-3">
+              <span className="text-xs text-gray-500 dark:text-neutral-500">
+                1/5
+              </span>
+              <div className="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700">
+                <div
+                  className="flex flex-col justify-center overflow-hidden bg-gray-800 dark:bg-neutral-200"
+                  role="progressbar"
+                  aria-valuenow="25"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td className="size-px whitespace-nowrap">
+          <div className="px-6 py-3">
+            <span className="text-sm text-gray-500 dark:text-neutral-500">
+              28 Dec, 12:12
+            </span>
+          </div>
+        </td>
+        <td className="size-px whitespace-nowrap">
+          <div className="px-6 py-1.5">
+            <a
+              className="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:underline font-medium dark:text-blue-500"
+              href="#"
+            >
+              Edit
+            </a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  );
+};

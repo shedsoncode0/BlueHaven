@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); // Firestore profile
   const [loading, setLoading] = useState(true);
 
-  const register = async (fullName, email, password, referralCodeInput) => {
+  const register = async (fullName, email, password, referralCodeInput) => { 
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -64,17 +64,20 @@ export const AuthProvider = ({ children }) => {
       );
 
       const querySnapshot = await getDocs(q);
+
       if (!querySnapshot.empty) {
         const referrerDoc = querySnapshot.docs[0];
         const referrerUid = referrerDoc.id;
-        console.log(referrerDoc);
 
-        await setDoc(doc(db, "users", referrerUid, "referrals", newUser.uid), {
-          uid: newUser.uid,
-          fullName,
-          email,
-          createdAt: serverTimestamp(),
+        if (referrerUid === newUser.uid) {
+          console.log("User cannot refer themselves");
+          return;
+        }
+
+        await updateDoc(doc(db, "users", referrerUid), {
+          referrals: arrayUnion(newUser.uid),
         });
+
         console.log("Referral applied successfully");
       } else {
         console.log("Invalid referral code");

@@ -2,31 +2,34 @@ import React, { useState } from "react";
 import PrimaryInput from "../../components/input/PrimaryInput";
 import PrimaryButton from "../../components/button/PrimaryButton";
 import { useAuthStore } from "../../store/useAuthStore";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { useAuth } from "../../hooks/useAuth";
 
 const Login = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const login = useAuthStore((state) => state.login);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+   const [error, setError] = useState("");
 
-  const handleLogin = async () => {
-    // Example API response
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    setIsLoading(true);
+    try {
+      await login(email, password);
+      navigate("/dashboard");
+      toast.success("User login successfully");
+    } catch (err) {
+      toast.error(err.message);
+      setError(err.message);
+    }
 
-    setTimeout(() => {
-      const response = {
-        user: {
-          id: "1",
-          name: "Shedrack",
-          email: "shedrack@gmail.com",
-        },
-        token: "jwt_token_here",
-      };
-      setIsLoading(false);
-      toast.success("Login successful");
-      login(response.user, response.token);
-    }, 3000);
+    setLoading(false);
   };
 
   return (
@@ -90,12 +93,14 @@ const Login = () => {
                 type="text"
                 placeholder="email"
                 label="Email address"
+                onChange={(e) => setEmail(e.target.value)}
               />
               <PrimaryInput
                 name="password"
                 type="text"
                 placeholder="password"
                 label="Password"
+                onChange={(e) => setPassword(e.target.value)}
               />
 
               {/* Checkbox */}
@@ -117,7 +122,7 @@ const Login = () => {
               {/* End Checkbox */}
 
               <PrimaryButton
-                isLoading={isLoading}
+                isLoading={loading}
                 onClick={handleLogin}
                 text="Sign in"
                 type="button"
