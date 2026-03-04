@@ -24,8 +24,15 @@ const Dashboard = () => {
       }
     }
 
-    if (user.uid) fetchReferrals(); // only call if userId exists
+    if (user?.uid) fetchReferrals(); // only call if userId exists
   }, [user]); // runs when userId changes
+
+  if (loading)
+    return (
+      <div className="text-center h-screen flex items-center justify-center font-bold text-xl">
+        Loading...
+      </div>
+    );
 
   return (
     <section>
@@ -332,7 +339,9 @@ const UserCard = ({ user }) => {
           <div className="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
             <div className="flex items-center gap-x-3">
               <div className=" size-9.5 rounded-full bg-gray-100 flex ">
-                <h1 className="m-auto font-bold text-gray-500">{user.fullName[0]}</h1>
+                <h1 className="m-auto font-bold text-gray-500">
+                  {user.fullName[0]}
+                </h1>
               </div>
 
               <div className="grow">
