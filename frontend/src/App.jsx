@@ -11,6 +11,7 @@ import Dashboard from "./_root/pages/Dashboard";
 import Level from "./_root/pages/Level";
 import Referral from "./_root/pages/Referral";
 import Settings from "./_root/pages/Settings";
+import Profile from "./_root/pages/Profile";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/referral" element={<Referral />} />
         <Route path="/stage" element={<Level />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
       </Route>
     </Routes>

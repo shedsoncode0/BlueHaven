@@ -39,7 +39,7 @@ const RootLayout = () => {
   const [activeTab, setActiveTab] = useState("Dashboard");
 
   const userNavigation = [
-    { name: "Your profile", href: "#", onClick: null },
+    { name: "Your profile", href: "/profile", onClick: null },
     { name: "Settings", href: "/settings", onClick: null },
     { name: "Sign out", href: "/", onClick: logout },
   ];
